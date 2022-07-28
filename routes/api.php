@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +21,10 @@ use App\Http\Controllers\API\AuthController;
 //     return $request->user();
 // });
 
-// Route::middleware('auth:sanctum')->group(function () {
-//     // return $request->user();
-//     Route::resource('articles', ArticleController::class);
-// });
 
 Route::post('login', [AuthController::class, 'signin']);
 Route::post('register', [AuthController::class, 'signup']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('articles', ArticleController::class);
+});
