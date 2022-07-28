@@ -11,14 +11,23 @@ use App\Http\Resources\Article as ArticleResource;
 
 class ArticleController extends BaseController
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Article::class, 'article');
+    }
+
     public function index()
     {
+        // $this->authorize('viewAny', Article::class);
+
         $article = Article::all();
         return $this->sendResponse(ArticleResource::collection($article), 'Article fetched');
     }
 
     public function store(Request $request)
     {
+        // $this->authorize('create');
+
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'slug' => 'required',
@@ -38,6 +47,8 @@ class ArticleController extends BaseController
 
     public function show($id)
     {
+        // $this->authorize('view');
+
         $article = Article::findOrFail($id);
 
         if (is_null($article)) {
@@ -49,6 +60,8 @@ class ArticleController extends BaseController
 
     public function update(Request $request, Article $article)
     {
+        // $this->authorize('update');
+
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'slug' => 'required',
@@ -72,6 +85,8 @@ class ArticleController extends BaseController
 
     public function destroy(Article $article)
     {
+        // $this->authorize('delete');
+
         $article->delete();
         return $this->sendResponse([], 'Article deleted');
     }
